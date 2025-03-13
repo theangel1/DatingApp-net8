@@ -16,33 +16,31 @@
             <li class="nav-item">
                 <a class="nav-link">Messages</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" (click)="logout()">logout</a>
-            </li>
 
         </ul>
         }
 
         @if(loggedIn){
-            <div class="dropdown">
-                <a class="dropdown-toggle text-light">Welcome User</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item">Edit profile</a>
-                    <a class="dropdown-item" (click)="logout()">Logout</a>
-                </div>
+        <div dropdown class="dropdown">
+            <a dropdownToggle class="dropdown-toggle text-light text-decoration-none">Welcome User</a>
+            <div *dropdownMenu class="dropdown-menu">
+                <a class="dropdown-item">Edit profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" (click)="logout()">Logout</a>
             </div>
+        </div>
         }
 
         @if(!loggedIn){
-            <form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex" autocomplete="off">
-                <input name="username" [(ngModel)]="model.username" class="form-control me-2" placeholder="Username">
-                <input name="password" [(ngModel)]="model.password" class="form-control me-2" placeholder="Password"
-                    type="password">
-                <button class="btn btn-outline-success" type="submit">Login</button>
-            </form>
+        <form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex" autocomplete="off">
+            <input name="username" [(ngModel)]="model.username" class="form-control me-2" placeholder="Username">
+            <input name="password" [(ngModel)]="model.password" class="form-control me-2" placeholder="Password"
+                type="password">
+            <button class="btn btn-outline-success" type="submit">Login</button>
+        </form>
         }
 
-        
+
 
     </div>
 </nav>
