@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 
+
 @Component({
   selector: 'app-nav',
   standalone: true,
@@ -23,5 +24,9 @@ export class NavComponent {
       },
       error: error => console.log(error)
     })
+  }
+
+  logout(){
+    this.loggedIn = false
   }
 }
