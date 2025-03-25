@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -14,20 +15,24 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class NavComponent {
   accountService = inject(AccountService)
+  private router = inject(Router)
+  private toaster = inject(ToastrService)
 
   model: any = {};
+
 
   login() {
     //lo siguiente retornará un observable.
     this.accountService.login(this.model).subscribe({
-      next: response => {
-        console.log(response)
-      },
-      error: error => console.log(error)
+      next: _ => //_ = ()
+        this.router.navigateByUrl('/members')
+      ,
+      error: error => this.toaster.error(error.error)
     })
   }
 
   logout() {
     this.accountService.logout()
+    this.router.navigateByUrl('/')
   }
 }
