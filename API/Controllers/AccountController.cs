@@ -17,7 +17,8 @@ public class AccountController(DataContext context, ITokenService tokenService) 
     {
         if (await UserExists(registerDto.Username)) return BadRequest("Usuario ya existe.");
 
-        using var hmac = new HMACSHA512();
+//como estamos agregando nuevas propiedades a la clase identity, comentaremos por ahora el siguiente código
+       /* using var hmac = new HMACSHA512();
 
         var user = new AppUser
         {
@@ -32,7 +33,8 @@ public class AccountController(DataContext context, ITokenService tokenService) 
         {
             Username = user.UserName,
             Token = tokenService.CreateToken(user)
-        };
+        };*/
+        return Ok();
 
     }
 
