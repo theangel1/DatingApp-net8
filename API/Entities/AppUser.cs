@@ -20,10 +20,10 @@ public class AppUser
     public required string Country { get; set; }
     public List<Photo> Photos { get; set; } = [];
 
-    public int GetAge()
+   /* public int GetAge()
     {
         return DateOfBirth.CalculateAge();
     }
-
+*/
 
 }
