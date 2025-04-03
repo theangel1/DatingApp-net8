@@ -10,15 +10,16 @@ namespace API.Controllers;
 [Authorize]
 public class UsersController(IUserRepository userRepository) : BaseApiController
 {
-    
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
         var users = await userRepository.GetUsersAsync();
+        
         return Ok(users);
     }
 
-    
+
     [HttpGet("{username}")] //api/users/2
     public async Task<ActionResult<AppUser>> GetUser(string username)
     {
