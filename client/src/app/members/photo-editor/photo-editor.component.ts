@@ -33,6 +33,16 @@ export class PhotoEditorComponent implements OnInit {
     this.hasBaseDropZoneOver = e
   }
 
+  deletePhoto(photo: Photo) {
+    this.memberService.deletePhoto(photo).subscribe({
+      next: _ => {
+        const updatedMember = { ...this.member() }
+        updatedMember.photos = updatedMember.photos.filter(x => x.id !== photo.id)
+        this.memberChange.emit(updatedMember)
+      }
+    })
+  }
+
   setMainPhoto(photo: Photo) {
     this.memberService.setMainPhoto(photo).subscribe({
       //nada por acá ya que api retorna 201 no content
