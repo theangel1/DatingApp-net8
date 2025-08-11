@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { JsonPipe, NgIf } from '@angular/common';
@@ -15,6 +15,7 @@ import { TextInputComponent } from "../_forms/text-input/text-input.component";
 export class RegisterComponent implements OnInit {
 
   private accountService = inject(AccountService)
+  private fb = inject(FormBuilder)
   private toastr = inject(ToastrService)
 
   cancelRegister = output<boolean>()
@@ -26,10 +27,10 @@ export class RegisterComponent implements OnInit {
   }
 
   initializeForm() {
-    this.registerForm = new FormGroup({
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required, this.matchValues('password')])
+    this.registerForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      confirmPassword: ['', [Validators.required, this.matchValues('password')]]
     })
     //esto para actualizar el custom validator si es que el valor base cambia
     this.registerForm.controls['password'].valueChanges.subscribe({
