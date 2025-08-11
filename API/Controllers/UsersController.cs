@@ -72,6 +72,12 @@ IPhotoService photoService) : BaseApiController
             PublicId = result.PublicId
         };
 
+//si es la primera foto que subo, set a main
+        if (user.Photos.Count == 0)
+        {
+            photo.IsMain = true;
+        }
+
         user.Photos.Add(photo);
 
         if (await userRepository.SaveAllAsync())
