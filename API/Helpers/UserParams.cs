@@ -18,6 +18,9 @@ public class UserParams
 
     //para no vernos en el resultado
     public string? CurrentUsername { get; set; }
+
+    public int MinAge { get; set; } = 18;
+    public int MaxAge { get; set; } = 100;
     
 
 }
