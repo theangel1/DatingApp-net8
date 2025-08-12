@@ -2,6 +2,7 @@ using System.Security.Claims;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -15,10 +16,14 @@ public class UsersController(IUserRepository userRepository, IMapper mapper,
 IPhotoService photoService) : BaseApiController
 {
 
+//ojo aca. en los parametros si es que no ponemos FromQuery, la API pensará o buscará en el body por default
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
     {
-        var users = await userRepository.GetMembersAsync();
+        var users = await userRepository.GetMembersAsync(userParams);
+
+        //usando el metodo de extension q creamos
+        Response.AddPaginationHeader(users);
 
         return Ok(users);
     }
@@ -72,7 +77,7 @@ IPhotoService photoService) : BaseApiController
             PublicId = result.PublicId
         };
 
-//si es la primera foto que subo, set a main
+        //si es la primera foto que subo, set a main
         if (user.Photos.Count == 0)
         {
             photo.IsMain = true;
