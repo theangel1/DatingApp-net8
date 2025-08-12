@@ -34,8 +34,10 @@ public class AccountController(DataContext context, ITokenService tokenService, 
         {
             Username = user.UserName,
             Token = tokenService.CreateToken(user),
-            KnownAs = user.KnownAs
+            KnownAs = user.KnownAs,
             //no retornamos la foto ya que recien se está registrando el usuario
+            Gender = user.Gender
+
         };
 
 
@@ -64,7 +66,8 @@ public class AccountController(DataContext context, ITokenService tokenService, 
             Username = user.UserName,
             KnownAs = user.KnownAs,
             Token = tokenService.CreateToken(user),
-            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+            Gender = user.Gender
         };
     }
 
