@@ -12,7 +12,7 @@ public class LikesRepository(DataContext context, IMapper mapper) : ILikesReposi
 {
     public void AddLike(UserLike like)
     {
-        context.Likes.Add(like)
+        context.Likes.Add(like);
     }
 
     public void DeleteLike(UserLike like)
@@ -59,7 +59,7 @@ public class LikesRepository(DataContext context, IMapper mapper) : ILikesReposi
                 .Select(x => x.SourceUser)
                 .ProjectTo<MemberDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
-            
+
         }
     }
 
