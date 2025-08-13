@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Member } from '../_models/member';
@@ -13,11 +13,16 @@ import { UserParams } from '../_models/userParams';
 })
 export class MembersService {
   private http = inject(HttpClient)
-  baseUrl = environment.apiUrl
-  //members = signal<Member[]>([])
+  baseUrl = environment.apiUrl  
   paginatedResult = signal<PaginatedResult<Member[]> | null>(null);
+  memberCache = new Map();
 
   getMembers(userParams: UserParams) {
+    //chequeamos si es que ya tenemos esta respuesta en nuestro cache
+    const response = this.memberCache.get(Object.values(userParams).join('-'));
+
+    if (response) 
+      return this.setPaginatedResponse(response);
    
     let params = this.setPaginationHeaders(userParams.pageNumber, userParams.pageSize);
 
@@ -28,14 +33,19 @@ export class MembersService {
 
     return this.http.get<Member[]>(this.baseUrl + 'users', {observe: 'response', params}).subscribe({
       next: response => {
-        this.paginatedResult.set({
-          items: response.body as Member[],
-          pagination: JSON.parse(response.headers.get('Pagination')!)
-        })
+      this.setPaginatedResponse(response)
+      //cada vez que hacemos una request, seteamos el cache
+      this.memberCache.set(Object.values(userParams).join('-'), response)
       }
     })
   }
 
+    private setPaginatedResponse(response: HttpResponse<Member[]>){
+      this.paginatedResult.set({
+          items: response.body as Member[],
+          pagination: JSON.parse(response.headers.get('Pagination')!)
+        })
+    }
 
   private setPaginationHeaders(pageNumber: number, pageSize: number){
  let params = new HttpParams();
