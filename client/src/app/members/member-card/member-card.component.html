@@ -8,7 +8,7 @@
                 </button>
             </li>
             <li class="list-inline-item">
-                <button class="btn-primary btn">
+                <button class="btn-primary btn" (click)="toggleLike()">
                     <i class="fa fa-heart"></i>
                 </button>
             </li>
@@ -24,7 +24,9 @@
             <i class="fa fa-user me-2"></i>
             {{member().knownAs}}, {{member().age}}
             @if(hasLiked()){
-                <i class="fa fa-heart ms-2" style="color: red;"></i>
+            <i class="fa fa-heart ms-2" style="color: red;">
+
+            </i>
             }
 
         </h6>
