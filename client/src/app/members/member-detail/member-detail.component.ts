@@ -19,17 +19,24 @@ import { MessageService } from '../../_services/message.service';
 })
 export class MemberDetailComponent implements OnInit {
 
-  @ViewChild('memberTabs') memberTabs?: TabsetComponent;
+  @ViewChild('memberTabs', {static: true}) memberTabs?: TabsetComponent;
   private messageService = inject(MessageService);
   private memberService = inject(MembersService)
   private route = inject(ActivatedRoute)
-  member?: Member
+  member: Member = {} as Member;
   images: GalleryItem[] = []
   activeTab? : TabDirective;
   messages : Message[] = [];
 
   ngOnInit(): void {
-    this.loadMember()
+    this.route.data.subscribe({
+      next: data => {
+        this.member= data['member'];
+       this.member &&  this.member.photos.map(p => {
+          this.images.push(new ImageItem({ src: p.url, thumb: p.url }))
+        })
+      }
+    })
 
     this.route.queryParams.subscribe({
       next: params => {
@@ -57,7 +64,8 @@ export class MemberDetailComponent implements OnInit {
     }
   }
 
-
+  //no usaremos el siguiente metodo debido a que el resolver se encarga de hacer el load del member
+/*
   loadMember() {
     const username = this.route.snapshot.paramMap.get('username')
     if (!username) return
@@ -70,5 +78,5 @@ export class MemberDetailComponent implements OnInit {
         })
       }
     })
-  }
+  }*/
 }
