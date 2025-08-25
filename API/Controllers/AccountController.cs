@@ -23,9 +23,7 @@ public class AccountController(DataContext context, ITokenService tokenService, 
         using var hmac = new HMACSHA512();
 
         var user = mapper.Map<AppUser>(registerDto);
-        user.UserName = registerDto.Username.ToLower();
-        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
-        user.PasswordSalt = hmac.Key;
+        
 
 
         context.Users.Add(user);
@@ -52,14 +50,7 @@ public class AccountController(DataContext context, ITokenService tokenService, 
 
         if (user == null) return Unauthorized("Username inválido");
 
-        using var hmac = new HMACSHA512(user.PasswordSalt);
-
-        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-
-        for (int i = 0; i < computedHash.Length; i++)
-        {
-            if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("password inválido");
-        }
+        
 
         return new UserDto
         {
