@@ -35,7 +35,7 @@ public class AccountController(UserManager<AppUser> userManager, ITokenService t
         return new UserDto
             {
                 Username = user.UserName,
-                Token = tokenService.CreateToken(user),
+                Token = await tokenService.CreateToken(user),
                 KnownAs = user.KnownAs,
                 //no retornamos la foto ya que recien se está registrando el usuario
                 Gender = user.Gender
@@ -62,7 +62,7 @@ public class AccountController(UserManager<AppUser> userManager, ITokenService t
         {
             Username = user.UserName,
             KnownAs = user.KnownAs,
-            Token = tokenService.CreateToken(user),
+            Token = await tokenService.CreateToken(user),
             PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
             Gender = user.Gender
         };

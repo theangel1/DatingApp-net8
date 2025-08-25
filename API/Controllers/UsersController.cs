@@ -16,9 +16,10 @@ public class UsersController(IUserRepository userRepository, IMapper mapper,
 IPhotoService photoService) : BaseApiController
 {
 
-//ojo aca. en los parametros si es que no ponemos FromQuery, la API pensará o buscará en el body por default
+
+    //ojo aca. en los parametros si es que no ponemos FromQuery, la API pensará o buscará en el body por default
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
         userParams.CurrentUsername = User.GetUsername();
         var users = await userRepository.GetMembersAsync(userParams);
