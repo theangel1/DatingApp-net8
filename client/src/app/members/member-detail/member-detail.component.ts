@@ -64,6 +64,11 @@ export class MemberDetailComponent implements OnInit {
     }
   }
 
+onUpdateMessages(event: Message){
+  this.messages.push(event);
+}
+
+
   //no usaremos el siguiente metodo debido a que el resolver se encarga de hacer el load del member
 /*
   loadMember() {
