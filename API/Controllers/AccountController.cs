@@ -23,20 +23,21 @@ public class AccountController(DataContext context, ITokenService tokenService, 
         using var hmac = new HMACSHA512();
 
         var user = mapper.Map<AppUser>(registerDto);
-        
-
-
         context.Users.Add(user);
         await context.SaveChangesAsync();
-        return new UserDto
-        {
-            Username = user.UserName,
-            Token = tokenService.CreateToken(user),
-            KnownAs = user.KnownAs,
-            //no retornamos la foto ya que recien se está registrando el usuario
-            Gender = user.Gender
 
-        };
+        if (user.UserName == null)
+            return BadRequest("No username para el user");
+
+        return new UserDto
+            {
+                Username = user.UserName,
+                Token = tokenService.CreateToken(user),
+                KnownAs = user.KnownAs,
+                //no retornamos la foto ya que recien se está registrando el usuario
+                Gender = user.Gender
+
+            };
 
 
     }
@@ -48,9 +49,7 @@ public class AccountController(DataContext context, ITokenService tokenService, 
         .Include(p => p.Photos)
         .FirstOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
 
-        if (user == null) return Unauthorized("Username inválido");
-
-        
+        if (user == null || user.UserName == null) return Unauthorized("Username inválido");
 
         return new UserDto
         {
@@ -64,7 +63,7 @@ public class AccountController(DataContext context, ITokenService tokenService, 
 
     private async Task<bool> UserExists(string username)
     {
-        return await context.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
+        return await context.Users.AnyAsync(x => x.NormalizedUserName == username.ToUpper());
     }
 
 }

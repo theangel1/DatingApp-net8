@@ -18,6 +18,10 @@ public class TokenService(IConfiguration config) : ITokenService
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 
+        //para que el compilador este feliz...
+
+        if (user.UserName == null) throw new Exception("No username for user");
+
         var claims = new List<Claim>
         {
             new (ClaimTypes.NameIdentifier, user.Id.ToString()),

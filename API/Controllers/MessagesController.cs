@@ -29,7 +29,7 @@ IUserRepository userRepository, IMapper mapper) : BaseApiController
 
         var recipient = await userRepository.GetUserByUsernameAsync(createMessageDto.RecipientUsername);
 
-        if (recipient == null || sender == null)
+        if (recipient == null || sender == null ||  sender.UserName == null || recipient.UserName == null) 
             return BadRequest("Cannot message at this time");
 
         var message = new Message
