@@ -24,6 +24,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
 
 //aplicando migraciones y el seed. Es fuera del dependency injection, asi que... ojo
 using var scope = app.Services.CreateScope();
