@@ -12,22 +12,14 @@ import { FormsModule, NgForm } from '@angular/forms';
 })
 export class MemberMessagesComponent {
   @ViewChild('messageForm') messageForm?: NgForm
-
   messageService = inject(MessageService);
   username = input.required<string>();
-
   messageContent = '';
 
 
   sendMessage() {
-    this.messageService.sendMessage(this.username(), this.messageContent).subscribe({
-      next: message => {
-
-        this.messageForm?.reset()
-      }
+    this.messageService.sendMessage(this.username(), this.messageContent).then(() => {
+      this.messageForm?.reset();      
     })
   }
-
-
-
 }

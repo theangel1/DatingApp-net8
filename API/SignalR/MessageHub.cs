@@ -16,7 +16,8 @@ IUserRepository userRepository, IMapper mapper) : Hub
         var httpContext = Context.GetHttpContext();
         var otherUser = httpContext?.Request.Query["user"];
 
-        if (Context.User == null || string.IsNullOrEmpty(otherUser)) throw new Exception("cannot join group");
+        if (Context.User == null || string.IsNullOrEmpty(otherUser))
+            throw new Exception("cannot join group");
 
         var groupName = GetGroupName(Context.User.GetUsername(), otherUser);
 
@@ -41,7 +42,6 @@ IUserRepository userRepository, IMapper mapper) : Hub
             throw new HubException("cannot message yourself");
 
         var sender = await userRepository.GetUserByUsernameAsync(username);
-
         var recipient = await userRepository.GetUserByUsernameAsync(createMessageDto.RecipientUsername);
 
         if (recipient == null || sender == null || sender.UserName == null || recipient.UserName == null)

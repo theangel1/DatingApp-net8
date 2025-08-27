@@ -18,8 +18,7 @@ import { AccountService } from '../../_services/account.service';
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.css'
 })
-export class MemberDetailComponent implements OnInit, OnDestroy {  
-
+export class MemberDetailComponent implements OnInit, OnDestroy { 
   @ViewChild('memberTabs', { static: true }) memberTabs?: TabsetComponent;
   private messageService = inject(MessageService);
   presenceService = inject(PresenceService)
