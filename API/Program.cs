@@ -36,6 +36,8 @@ try
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
+//lo siguiente para remover comportamientos raros al momento de que se nos cierre la app. clase 437 del curso....
+    await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]")
     await Seed.SeedUsers(userManager, roleManager);
 }
 catch (Exception ex)
