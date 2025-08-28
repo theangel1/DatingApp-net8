@@ -66,11 +66,7 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
         .ToListAsync();
     }
 
-    public async Task<bool> SaveAllAsync()
-    {
-        //si es mayor a cero, significa que algo se ha guardado
-        return await context.SaveChangesAsync() > 0;
-    }
+   
 
     public void Update(AppUser user)
     {
