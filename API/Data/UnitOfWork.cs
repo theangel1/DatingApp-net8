@@ -4,10 +4,10 @@ using API.Interfaces;
 namespace API.Data;
 
 public class UnitOfWork(DataContext context,
-IUserRepository user, ILikesRepository likesRepository,
+IUserRepository userRepository, ILikesRepository likesRepository,
 IMessageRepository messageRepository) : IUnitOfWork
 {
-    public IUserRepository UserRepository => UserRepository;
+    public IUserRepository UserRepository => userRepository;
 
     public IMessageRepository MessageRepository => messageRepository;
 
